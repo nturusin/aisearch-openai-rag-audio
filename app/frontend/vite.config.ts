@@ -16,12 +16,13 @@ export default defineConfig({
         }
     },
     server: {
+        host: '0.0.0.0',
         proxy: {
             "/realtime": {
                 target: "ws://localhost:8765",
                 ws: true,
                 rewriteWsOrigin: true
             }
-        }
+        },
     }
 });

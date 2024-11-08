@@ -1,0 +1,30 @@
+services:
+  web:
+    build:
+      context: app
+      target: production-stage
+    ports:
+      - "8000:8000"
+      - "8765:8765"
+    volumes:
+      - .:/app
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
+    env_file:
+      - .env
+    depends_on:
+      - frontend
+
+  frontend:
+    build:
+      context: app
+      target: build-stage
+    working_dir: /app/frontend
+    command: npm run dev -- --host 0.0.0.0
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./app/frontend:/app/frontend
+    environment:
+      NODE_ENV: development
