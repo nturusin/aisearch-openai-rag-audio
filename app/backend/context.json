@@ -1,0 +1,56 @@
+{
+    "companies_house": [
+        {
+            "beneficiaries_names": "Caroline Duong",
+            "created_at": "2023-08-23T14:27:45.496Z",
+            "updated_at": "2023-08-23T14:27:45.496Z",
+            "company_public_id": "8240bcd9-c3ed-4901-8fd5-ee2426c379ef"
+        }
+    ],
+    "vat_returns": [],
+    "company_info": [
+        {
+            "company_type": "LIMITED COMPANY - LTD",
+            "sic_codes": "62012,70229",
+            "company_name": "CADU LTD",
+            "vat_accounting_scheme": "OTHER",
+            "vat_basis": null,
+            "vat_number": null,
+            "vat_registered": false,
+            "company_public_id": "8240bcd9-c3ed-4901-8fd5-ee2426c379ef",
+            "director_alias": "Z4e29c4Wbew2ebW8NFb8",
+            "business_category": "Consultant, contractor or specialist",
+            "nature_of_business": "I consult starts ups in product, finance and operations",
+            "nature_of_business_from_website": null,
+            "sic_codes_description": "Information and communication, Professional, scientific and technical activities"
+        }
+    ],
+    "payroll": [
+        {
+            "first_name": "Caroline",
+            "last_name": "DUONG",
+            "start_date": "2024-12-26T00:00:00.000",
+            "leaving_date": null,
+            "company_public_id": "8240bcd9-c3ed-4901-8fd5-ee2426c379ef"
+        },
+        {
+            "first_name": "Anna",
+            "last_name": "Director",
+            "start_date": "2024-12-26T00:00:00.000",
+            "leaving_date": null,
+            "company_public_id": "8240bcd9-c3ed-4901-8fd5-ee2426c379ef"
+        }
+    ],
+    "questionnaire": [],
+    "marketplaces": [
+        {
+            "company_public_id": "8240bcd9-c3ed-4901-8fd5-ee2426c379ef",
+            "has_ebay": false,
+            "has_etsy": false,
+            "has_quickbooks": false,
+            "has_amazon": false,
+            "has_woocommerce": false,
+            "has_shopify": false
+        }
+    ]
+}

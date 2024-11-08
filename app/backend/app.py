@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+import json
 
 from aiohttp import web
 from azure.core.credentials import AzureKeyCredential
@@ -41,13 +42,16 @@ async def create_app():
         deployment=os.environ["AZURE_OPENAI_REALTIME_DEPLOYMENT"],
         voice_choice=os.environ.get("AZURE_OPENAI_REALTIME_VOICE_CHOICE") or "alloy"
     )
-    rtmt.system_message = "You are a helpful assistant. Only answer questions based on information you searched in the knowledge base, accessible with the 'search' tool. " + \
-                          "The user is listening to answers with audio, so it's *super* important that answers are as short as possible, a single sentence if at all possible. " + \
-                          "Never read file names or source names or keys out loud. " + \
-                          "Always use the following step-by-step instructions to respond: \n" + \
-                          "1. Always use the 'search' tool to check the knowledge base before answering a question. \n" + \
-                          "2. Always use the 'report_grounding' tool to report the source of information from the knowledge base. \n" + \
-                          "3. Produce an answer that's as short as possible. If the answer isn't in the knowledge base, say you don't know."
+
+    PARENT_DIR = Path(__file__).parent
+    with open(PARENT_DIR / "prompt.txt", encoding="utf-8") as file:
+        system_prompt = file.read()
+    
+    with open(PARENT_DIR / "context.json", encoding="utf-8") as file:
+        context = "USER_CONTEXT: \n" + json.dumps(json.load(file))
+        
+    rtmt.system_message = system_prompt + "\n" + context
+
     attach_rag_tools(rtmt,
                      credentials=search_credential,
                      search_endpoint=os.environ.get("AZURE_SEARCH_ENDPOINT"),
