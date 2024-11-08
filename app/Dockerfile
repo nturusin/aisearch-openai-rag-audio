@@ -22,4 +22,4 @@ RUN python -m pip install -r requirements.txt
 
 RUN python -m pip install gunicorn
 
-CMD ["python3", "-m", "gunicorn", "app.backend.app:create_app", "-b", "0.0.0.0:8000", "--worker-class", "aiohttp.GunicornWebWorker"]
+CMD ["python3", "-m", "gunicorn", "app.backend.app:create_app", "-b", "0.0.0.0:8765", "--worker-class", "aiohttp.GunicornWebWorker"]
