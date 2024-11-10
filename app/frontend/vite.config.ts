@@ -18,7 +18,7 @@ export default defineConfig({
     server: {
         proxy: {
             "/realtime": {
-                target: "ws://localhost:8765",
+                target: "ws://web:8765",
                 ws: true,
                 rewriteWsOrigin: true
             }

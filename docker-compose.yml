@@ -1,0 +1,12 @@
+ services:
+   web:
+     build:
+       context: app
+       target: production-stage
+     ports:
+       - "8765:8765"
+     environment:
+       PYTHONDONTWRITEBYTECODE: 1
+       PYTHONUNBUFFERED: 1
+     env_file:
+       - app/backend/.env

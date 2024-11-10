@@ -1,13 +1,13 @@
 {
     "app": {
-        "title": "Talk to your data",
-        "footer": "Built with Azure AI Search + Azure OpenAI",
+        "title": "Book your accountant call",
+        "footer": "Forked with ❤\uFE0F from Azure",
         "stopRecording": "Stop recording",
         "startRecording": "Start recording",
         "stopConversation": "Stop conversation"
     },
     "status": {
-        "notRecordingMessage": "Ask anything about Contoso employee benefits",
+        "notRecordingMessage": "Start booking process",
         "conversationInProgress": "Conversation in progress"
     },
     "history": {

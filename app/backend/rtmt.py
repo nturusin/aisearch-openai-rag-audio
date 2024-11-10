@@ -6,8 +6,6 @@ from typing import Any, Callable, Optional
 
 import aiohttp
 from aiohttp import web
-from azure.core.credentials import AzureKeyCredential
-from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
 logger = logging.getLogger("voicerag")
 
@@ -65,17 +63,11 @@ class RTMiddleTier:
     _tools_pending = {}
     _token_provider = None
 
-    def __init__(self, endpoint: str, deployment: str, credentials: AzureKeyCredential | DefaultAzureCredential, voice_choice: Optional[str] = None):
-        self.endpoint = endpoint
-        self.deployment = deployment
+    def __init__(self, api_key: str, voice_choice: Optional[str] = None):
         self.voice_choice = voice_choice
         if voice_choice is not None:
             logger.info("Realtime voice choice set to %s", voice_choice)
-        if isinstance(credentials, AzureKeyCredential):
-            self.key = credentials.key
-        else:
-            self._token_provider = get_bearer_token_provider(credentials, "https://cognitiveservices.azure.com/.default")
-            self._token_provider() # Warm up during startup so we have a token cached when the first request arrives
+        self.key = api_key
 
     async def _process_message_to_client(self, msg: str, client_ws: web.WebSocketResponse, server_ws: web.WebSocketResponse) -> Optional[str]:
         message = json.loads(msg.data)
@@ -179,16 +171,15 @@ class RTMiddleTier:
         return updated_message
 
     async def _forward_messages(self, ws: web.WebSocketResponse):
-        async with aiohttp.ClientSession(base_url=self.endpoint) as session:
-            params = { "api-version": self.api_version, "deployment": self.deployment}
-            headers = {}
-            if "x-ms-client-request-id" in ws.headers:
-                headers["x-ms-client-request-id"] = ws.headers["x-ms-client-request-id"]
-            if self.key is not None:
-                headers = { "api-key": self.key }
-            else:
-                headers = { "Authorization": f"Bearer {self._token_provider()}" } # NOTE: no async version of token provider, maybe refresh token on a timer?
-            async with session.ws_connect("/openai/realtime", headers=headers, params=params) as target_ws:
+        async with aiohttp.ClientSession() as session:
+            headers = {
+                        "Authorization": f"Bearer {self.key}",
+                        "OpenAI-Beta": "realtime=v1",
+            }
+            params = {
+                "model": "gpt-4o-realtime-preview-2024-10-01"
+            }
+            async with session.ws_connect("wss://api.openai.com/v1/realtime", headers=headers, params=params) as target_ws:
                 async def from_client_to_server():
                     async for msg in ws:
                         if msg.type == aiohttp.WSMsgType.TEXT:
